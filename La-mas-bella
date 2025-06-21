@@ -357,24 +357,6 @@ game.Players.PlayerAdded:Connect(function(player)
     end
 end)
 
-local bubbleButton = AutoFarm:AddButton("Blow Bubble", function()
-    game:GetService("ReplicatedStorage").Share.Framework.Network.Remote.Event:FireServer("BlowBubble")
-end)
-
-local collectPickupButton = AutoFarm:AddButton("Collect Pickups", function()
-    for _, item in pairs(workspace.Chucker:GetChildren()) do
-        if item:IsA("BasePart") then
-            game:GetService("ReplicatedStorage").Remotes.Pickups.CollectPickup:FireServer(item.Name)
-        end
-    end
-end)
-
-local claimPlaytimeButton = AutoFarm:AddButton("Claim All Playtime Rewards", function()
-    for i = 1, 9 do
-        game:GetService("ReplicatedStorage").Share.Framework.Network.Remote.Function:InvokeServer("ClaimPlaytime", i)
-    end
-end)
-
 _G.whitelistedPlayers = _G.whitelistedPlayers or {}
 local function checkCharacter()
     if not game.Players.LocalPlayer.Character then
