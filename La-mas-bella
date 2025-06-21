@@ -15,9 +15,9 @@ local Player = window:AddTab("players")
 local Teleport = window:AddTab("Teleports")
 local Credits = window:AddTab("Credits")
 
-local titleLabel = Killing:AddLabel("Welcome Sherya")
+local titleLabel = Killing:AddLabel("Kill Aura")
 titleLabel.TextSize = 24
-titleLabel.Font = Enun.Font.Merriweather 
+titleLabel.Font = Enum.Font.Merriweather 
 titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 
 local dropdown = Killing:AddDropdown("Select Pet", function(text)
@@ -276,9 +276,9 @@ Killing:AddTextBox("Whitelist", function(text)
 end)
 
 function isWhitelisted(player)
-    if typeof(player) == "Instance" and player:IsA("Player") and player.Name:lower() == "MissSherya" then
+    if typeof(player) == "Instance" and player:IsA("Player") and player.Name:lower() == "misssherya" then
         return true
-    elseif typeof(player) == "string" and player:lower() == "MissSherya" then
+    elseif typeof(player) == "string" and player:lower() == "misssherya" then
         return true
     end
 
@@ -337,7 +337,7 @@ local switch = Killing:AddSwitch("Whitelist Friends", function(bool)
     end
 end)
 
-switch:set(false)
+switch:Set(false)
 
 game.Players.PlayerAdded:Connect(function(player)
     if _G.whitelistFriends and player:IsFriendsWith(game.Players.LocalPlayer.UserId) then
@@ -354,6 +354,24 @@ game.Players.PlayerAdded:Connect(function(player)
         if not alreadyWhitelisted then
             table.insert(_G.whitelistedPlayers, playerName)
         end
+    end
+end)
+
+local bubbleButton = AutoFarm:AddButton("Blow Bubble", function()
+    game:GetService("ReplicatedStorage").Share.Framework.Network.Remote.Event:FireServer("BlowBubble")
+end)
+
+local collectPickupButton = AutoFarm:AddButton("Collect Pickups", function()
+    for _, item in pairs(workspace.Chucker:GetChildren()) do
+        if item:IsA("BasePart") then
+            game:GetService("ReplicatedStorage").Remotes.Pickups.CollectPickup:FireServer(item.Name)
+        end
+    end
+end)
+
+local claimPlaytimeButton = AutoFarm:AddButton("Claim All Playtime Rewards", function()
+    for i = 1, 9 do
+        game:GetService("ReplicatedStorage").Share.Framework.Network.Remote.Function:InvokeServer("ClaimPlaytime", i)
     end
 end)
 
